@@ -10,5 +10,8 @@ class Atendimentos(BaseModel):
     etapa = db.Column(db.String(20))
     username = db.Column(db.String(20))
     
+    insumos = db.relationship("Insumos", backref="atendimentos")
+    
     funcionario_id = db.Column(db.Integer, db.ForeignKey("funcionarios.id"))
     cliente_id = db.Column(db.Integer, db.ForeignKey("clientes.id"))
+    

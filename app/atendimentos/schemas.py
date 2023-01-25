@@ -1,5 +1,6 @@
 from app.extensions import ma
 from .models import Atendimentos
+from app.insumos.schemas import InsumosSchema
 
 class AtendimentosSchema(ma.SQLAlchemySchema):
     
@@ -14,3 +15,4 @@ class AtendimentosSchema(ma.SQLAlchemySchema):
     etapa = ma.String()
     funcionario_id = ma.Integer()
     cliente_id = ma.Integer()
+    insumos = ma.List(ma.Nested(InsumosSchema),dump_only = True)
