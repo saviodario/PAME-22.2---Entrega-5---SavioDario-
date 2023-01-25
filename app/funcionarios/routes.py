@@ -10,7 +10,7 @@ funcionario_api.add_url_rule(
 )
 
 funcionario_api.add_url_rule(
-    "/funcionarios/<int:id>",
+    "/funcionarios/<int:funcionarios_id>",
     view_func= FuncionariosDetails.as_view("funcionarios_details"),
     methods = ["GET","PUT","DELETE"]
 )

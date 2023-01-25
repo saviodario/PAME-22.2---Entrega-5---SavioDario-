@@ -13,3 +13,4 @@ class AtendimentosSchema(ma.SQLAlchemySchema):
     hora = ma.String()
     etapa = ma.String()
     funcionario_id = ma.Integer()
+    cliente_id = ma.Integer()

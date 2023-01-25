@@ -4,13 +4,9 @@ from flask.views import MethodView
 from .schemas import ClientesSchema
 from .models import Clientes
 
-""" class ClientesController(MethodView):
-    def get(self):
-        schema = ClientesSchema()
-        clientes = Clientes.query.all()
-
-        return schema.dump(clientes, many = True), 200
-    
+"/clientes"
+class ClientesController(MethodView):    
+    "possibilita cliente criar conta"
     def post(self):
         schema = ClientesSchema()
         data = request.json
@@ -20,21 +16,23 @@ from .models import Clientes
             return{},400
         cliente.save()
         return schema.dump(cliente),201
-    
+
+"/clientes/<int:cliente_id>"
 class ClientesDetails(MethodView):
-    def get(self,id):
+    "gerenciamento da conta pessoal do cliente alteração de nome e remoção do sistema "
+    def get(self,cliente_id):
         schema = ClientesSchema()
-        cliente = Clientes.query.get(id)
+        cliente = Clientes.query.get(cliente_id)
         if not cliente:
             return {'error: user not found'},404
         return schema.dump(cliente)
         
     
-    def put(self,id):
+    def put(self,cliente_id):
         schema = ClientesSchema()
         
         data = request.json
-        cliente = Clientes.query.get(id)
+        cliente = Clientes.query.get(cliente_id)
         if not cliente:
             return {'error: user not found'},404
         try:
@@ -44,9 +42,9 @@ class ClientesDetails(MethodView):
         cliente.save()
         return schema.dump(cliente),201
     
-    def delete(self,id):
+    def delete(self,cliente_id):
         schema = ClientesSchema()
-        cliente = Clientes.query.get(id)
+        cliente = Clientes.query.get(cliente_id)
         if not cliente:
             return {'error: user not found'},404
         
@@ -54,4 +52,3 @@ class ClientesDetails(MethodView):
         return {},204
             
             
- """

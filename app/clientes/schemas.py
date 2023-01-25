@@ -1,6 +1,6 @@
-""" from app.extensions import ma
+from app.extensions import ma
 from .models import Clientes
-
+from app.atendimentos.schemas import AtendimentosSchema
 class ClientesSchema(ma.SQLAlchemySchema):
     
     class Meta():
@@ -9,4 +9,6 @@ class ClientesSchema(ma.SQLAlchemySchema):
         ordered = True
         
     id = ma.Integer(dump_only=True)
-    username = ma.String(required = True) """
+    username = ma.String(required = True)
+    
+    atendimentos = ma.List(ma.Nested(AtendimentosSchema),dump_only = True)

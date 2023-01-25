@@ -22,19 +22,19 @@ class FuncionariosController(MethodView):
         return schema.dump(funcionario),201
     
 class FuncionariosDetails(MethodView):
-    def get(self,id):
+    def get(self,funcionarios_id):
         schema = FuncionariosSchema()
-        funcionario = Funcionarios.query.get(id)
+        funcionario = Funcionarios.query.get(funcionarios_id)
         if not funcionario:
             return {'error: user not found'},404
         return schema.dump(funcionario)
         
     
-    def put(self,id):
+    def put(self,funcionarios_id):
         schema = FuncionariosSchema()
         
         data = request.json
-        funcionario = Funcionarios.query.get(id)
+        funcionario = Funcionarios.query.get(funcionarios_id)
         if not funcionario:
             return {'error: user not found'},404
         try:
@@ -44,9 +44,9 @@ class FuncionariosDetails(MethodView):
         funcionario.save()
         return schema.dump(funcionario),201
     
-    def delete(self,id):
+    def delete(self,funcionarios_id):
         schema = FuncionariosSchema()
-        funcionario = Funcionarios.query.get(id)
+        funcionario = Funcionarios.query.get(funcionarios_id)
         if not funcionario:
             return {'error: user not found'},404
         

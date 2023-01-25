@@ -4,7 +4,7 @@ from .extensions import ma, db, mi
 from .config import Config
 
 from app.funcionarios.routes import funcionario_api
-""" from app.clientes.routes import cliente_api """
+from app.clientes.routes import cliente_api
 from app.atendimentos.routes import atendimento_api
 
 def create_app():
@@ -17,7 +17,7 @@ def create_app():
     mi.init_app(app, db)
     
     app.register_blueprint(funcionario_api)
-    """ app.register_blueprint(cliente_api) """
+    app.register_blueprint(cliente_api) 
     app.register_blueprint(atendimento_api)
     
     return app
