@@ -1,8 +1,9 @@
 from flask import request
 from flask.views import MethodView
 
-from .schemas import FuncionariosSchema
+from .schemas import FuncionariosSchema, LoginFuncionarioSchema
 from .models import Funcionarios
+from flask_jwt_extended import create_access_token,jwt_required
 
 class FuncionariosController(MethodView):
     def get(self):
@@ -22,6 +23,9 @@ class FuncionariosController(MethodView):
         return schema.dump(funcionario),201
     
 class FuncionariosDetails(MethodView):
+    
+    decorators = [jwt_required]
+    
     def get(self,funcionarios_id):
         schema = FuncionariosSchema()
         funcionario = Funcionarios.query.get(funcionarios_id)
@@ -52,4 +56,21 @@ class FuncionariosDetails(MethodView):
         
         funcionario.delete(funcionario)
         return {},204
+    
+class FuncionarioLogin(MethodView):
+    def post(self):
+        schema = LoginFuncionarioSchema()
+        data = schema.load(request.json)
+        
+        funcionario = Funcionarios.query.filter_by(username=data['username']).first()
+        
+        if not funcionario:
+            return {'error: user not found'},404
+        
+        if not funcionario.check_password(data['password']):
+            return {"error":"wrong password"},401
+        
+        token = create_access_token(identity = funcionario.id)
+        
+        return schema.dump(funcionario),200
             
