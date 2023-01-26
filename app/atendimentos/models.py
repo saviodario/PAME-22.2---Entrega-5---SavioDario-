@@ -8,7 +8,6 @@ class Atendimentos(BaseModel):
     data = db.Column(db.String(12))
     hora = db.Column(db.String(12))
     etapa = db.Column(db.String(20))
-    username = db.Column(db.String(20))
     
     insumos = db.relationship("Insumos", backref="atendimentos")
     

@@ -16,8 +16,8 @@ class Funcionarios(BaseModel):
         raise AttributeError('password: write only field')
     
     @password.setter
-    def password(self, password) -> None:
-        self.password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+    def password(self, senha) -> None:
+        self.password_hash = bcrypt.hashpw(senha.encode(), bcrypt.gensalt())
         
-    def check_password(self,password):
-        return bcrypt.checkpw(password.encode(),self.password_hash)
+    def check_password(self,senha) -> bool:
+        return bcrypt.checkpw(senha.encode(),self.password_hash)

@@ -3,7 +3,7 @@ from flask.views import MethodView
 
 from .schemas import FuncionariosSchema, LoginFuncionarioSchema
 from .models import Funcionarios
-from flask_jwt_extended import create_access_token,jwt_required
+from flask_jwt_extended import create_access_token,jwt_required,get_jwt_identity
 
 class FuncionariosController(MethodView):
     def get(self):
@@ -24,11 +24,13 @@ class FuncionariosController(MethodView):
     
 class FuncionariosDetails(MethodView):
     
-    decorators = [jwt_required]
+    decorators = [jwt_required()]
     
     def get(self,funcionarios_id):
         schema = FuncionariosSchema()
         funcionario = Funcionarios.query.get(funcionarios_id)
+        if funcionarios_id!=get_jwt_identity():
+            return{"error":"crendentials invalid"},401
         if not funcionario:
             return {'error: user not found'},404
         return schema.dump(funcionario)
@@ -39,6 +41,8 @@ class FuncionariosDetails(MethodView):
         
         data = request.json
         funcionario = Funcionarios.query.get(funcionarios_id)
+        if funcionarios_id!=get_jwt_identity():
+            return{"error":"crendentials invalid"},401
         if not funcionario:
             return {'error: user not found'},404
         try:
@@ -51,6 +55,8 @@ class FuncionariosDetails(MethodView):
     def delete(self,funcionarios_id):
         schema = FuncionariosSchema()
         funcionario = Funcionarios.query.get(funcionarios_id)
+        if funcionarios_id!=get_jwt_identity():
+            return{"error":"crendentials invalid"},401
         if not funcionario:
             return {'error: user not found'},404
         
@@ -72,5 +78,5 @@ class FuncionarioLogin(MethodView):
         
         token = create_access_token(identity = funcionario.id)
         
-        return schema.dump(funcionario),200
+        return {"funcionario": FuncionariosSchema().dump(funcionario),"token":token},200
             

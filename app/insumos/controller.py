@@ -11,7 +11,7 @@ class InsumosAtendimentoController(MethodView):
         atendimento = Atendimentos.query.get(atendimento_id)
         if not atendimento:
             return{},404
-        insumos = insumos.query.filter_by(atendimento_id=atendimento_id)
+        insumos = Insumos.query.filter_by(atendimento_id=atendimento_id)
         return schema.dump(insumos, many = True), 200
     
     def post(self,atendimento_id):
